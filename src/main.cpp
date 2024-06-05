@@ -13,6 +13,7 @@
 #include <nlohmann/json.hpp>
 
 #include "ErrorHandler.h"
+#include "VariableHandler.h"
 
 void print_help() {
     std::cout << "Usage: program_name [options] <json_string>\n";
@@ -57,9 +58,21 @@ int main(int argc, char* argv[]) {
         // Parse JSON from the argument
         const nlohmann::json json_data = nlohmann::json::parse(json_arg);
 
-        // Work with the JSON data (for demonstration, we'll just print it)
-        std::cout << "Parsed JSON:\n" << json_data.dump(4) << std::endl;
-    } catch (nlohmann::json::parse_error& e) {
+        if(json_data.is_null() || !json_data.is_object()) {
+            mwa::ErrorHandler() << "Error: JSON string is not an object.";
+        }
+
+        if(!json_data.contains("variables") || !json_data["variables"].is_array()) {
+            mwa::ErrorHandler() << "Error: JSON object does not contain 'variables' array.";
+        }
+
+        auto variables = json_data["variables"];
+        for (const auto& variable : variables) {
+            const auto variable_handler = new mwa::VariableHandler(variable);
+            std::cout << "Variable name: " << variable_handler->name() << std::endl;
+        }
+
+    } catch (const std::exception &e) {
         mwa::ErrorHandler() << e.what();
         return 1;
     }

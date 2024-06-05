@@ -24,12 +24,14 @@ set(MATH_WIZ_APP_INCLUDE_DIRS
 
 set(MATH_WIZ_APP_HEADERS
         include/ErrorHandler.h
+        include/VariableHandler.h
 )
 
 set(MATH_WIZ_APP_SOURCES
         src/main.cpp
 
         src/ErrorHandler.cpp
+        src/VariableHandler.cpp
 )
 
 set(PROJECT_SOURCES
