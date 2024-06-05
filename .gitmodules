@@ -1,0 +1,6 @@
+[submodule "external/math_wiz"]
+	path = external/math_wiz
+	url = git@github.com:Sireth/MathWiz.git
+[submodule "external/json"]
+	path = external/json
+	url = git@github.com:nlohmann/json.git
