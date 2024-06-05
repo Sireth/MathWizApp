@@ -13,7 +13,9 @@
 #include <nlohmann/json.hpp>
 
 #include "ErrorHandler.h"
-#include "VariableHandler.h"
+#include "VariableTable.h"
+#include "Driver.h"
+#include "VariableTableBuilder.h"
 
 void print_help() {
     std::cout << "Usage: program_name [options] <json_string>\n";
@@ -66,11 +68,27 @@ int main(int argc, char* argv[]) {
             mwa::ErrorHandler() << "Error: JSON object does not contain 'variables' array.";
         }
 
-        auto variables = json_data["variables"];
-        for (const auto& variable : variables) {
-            const auto variable_handler = new mwa::VariableHandler(variable);
-            std::cout << "Variable name: " << variable_handler->name() << std::endl;
+        const auto& variables = json_data["variables"];
+
+        const mwa::VariableTableBuilder builder(variables);
+
+        const auto& vt = builder.variableTable();
+
+        if(!json_data.contains("expression") || !json_data["expression"].is_string()) {
+            mwa::ErrorHandler() << "Error: JSON object does not contain 'expression' string.";
         }
+
+        const auto& expression = json_data["expression"].get<std::string>();
+
+        mw::Driver driver;
+        driver.setVariableTable(*vt);
+
+        const auto ast = driver.Parse(expression);
+        mw::EvalVisitor visitor;
+
+        visitor.visit(ast);
+        auto result = visitor.result();
+        std::cout << "result" << std::endl;
 
     } catch (const std::exception &e) {
         mwa::ErrorHandler() << e.what();
