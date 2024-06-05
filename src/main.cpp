@@ -15,6 +15,7 @@
 #include "ErrorHandler.h"
 #include "VariableTable.h"
 #include "Driver.h"
+#include "ResultFormatter.h"
 #include "VariableTableBuilder.h"
 
 void print_help() {
@@ -87,8 +88,10 @@ int main(int argc, char* argv[]) {
         mw::EvalVisitor visitor;
 
         visitor.visit(ast);
-        auto result = visitor.result();
-        std::cout << "result" << std::endl;
+        const auto result = visitor.result();
+
+        mwa::ResultFormatter formatter(result);
+        std::cout << formatter.result().dump(4) << std::endl;
 
     } catch (const std::exception &e) {
         mwa::ErrorHandler() << e.what();

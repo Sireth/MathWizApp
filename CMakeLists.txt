@@ -26,6 +26,7 @@ set(MATH_WIZ_APP_HEADERS
         include/ErrorHandler.h
         include/VariableHandler.h
         include/VariableTableBuilder.h
+        include/ResultFormatter.h
 )
 
 set(MATH_WIZ_APP_SOURCES
@@ -34,6 +35,7 @@ set(MATH_WIZ_APP_SOURCES
         src/ErrorHandler.cpp
         src/VariableHandler.cpp
         src/VariableTableBuilder.cpp
+        src/ResultFormatter.cpp
 )
 
 set(PROJECT_SOURCES
