@@ -23,11 +23,13 @@ set(MATH_WIZ_APP_INCLUDE_DIRS
 )
 
 set(MATH_WIZ_APP_HEADERS
-        
+        include/ErrorHandler.h
 )
 
 set(MATH_WIZ_APP_SOURCES
         src/main.cpp
+
+        src/ErrorHandler.cpp
 )
 
 set(PROJECT_SOURCES
@@ -39,5 +41,5 @@ add_executable(math_wiz_app ${PROJECT_SOURCES})
 
 target_include_directories(math_wiz_app PUBLIC ${MATH_WIZ_APP_INCLUDE_DIRS})
 
-target_link_libraries(math_wiz_app PRIVATE math_wiz PRIVATE json)
+target_link_libraries(math_wiz_app PRIVATE math_wiz PRIVATE nlohmann_json)
 
