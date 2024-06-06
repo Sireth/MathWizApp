@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  math_wiz_app:
+    image: sireth/math_wiz_app:latest
+    tty: true
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    environment:
+      - DISPLAY=unix${DISPLAY}
+      - XAUTHORITY=${XAUTHORITY}
+      - XDG_RUNTIME_DIR
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ${HOME}/.Xauthority:${homedir}/.Xauthority
+      - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}
+      - /dev/dri/card0:/dev/dri/card0
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    privileged: true
+
+  math_wiz_app_builder:
+    image: sireth/math_wiz_app:latest
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ${BUILD_DIR}:/math_wiz_app/build
+    command: sh -c "cd build && rm -rf ./* && cmake -DCMAKE_MAKE_PROGRAM=/usr/bin/ninja -DCMAKE_C_COMPILER=/usr/bin/gcc-9 -DCMAKE_CXX_COMPILER=/usr/bin/g++-9 -G Ninja .. && cmake --build . -j 10"
