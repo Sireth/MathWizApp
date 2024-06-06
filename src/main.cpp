@@ -22,7 +22,7 @@ void print_help() {
     std::cout << "Usage: program_name [options] <json_string>\n";
     std::cout << "Options:\n";
     std::cout << "  -h, --help          Show this help message\n";
-    std::cout << "  -j, --json <arg>    JSON string to be processed\n";
+    std::cout << "  -j, --json <arg>    JSON string with variables and expression\n";
 }
 
 int main(int argc, char* argv[]) {
