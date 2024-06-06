@@ -27,4 +27,4 @@ services:
       dockerfile: docker/Dockerfile
     volumes:
       - ${BUILD_DIR}:/math_wiz_app/build
-    command: sh -c "cd build && rm -rf ./* && cmake -DCMAKE_MAKE_PROGRAM=/usr/bin/ninja -DCMAKE_C_COMPILER=/usr/bin/gcc-9 -DCMAKE_CXX_COMPILER=/usr/bin/g++-9 -G Ninja .. && cmake --build -j 10"
+    command: sh -c "cd build && rm -rf ./* && cmake -DCMAKE_MAKE_PROGRAM=/usr/bin/ninja -DCMAKE_C_COMPILER=/usr/bin/gcc-9 -DCMAKE_CXX_COMPILER=/usr/bin/g++-9 -G Ninja .. && cmake --build . -j 10"

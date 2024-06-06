@@ -16,15 +16,15 @@ docker-compose up -d
 
 Эта команда запустит контейнеры Math Wiz App и Math Wiz App Builder в фоновом режиме.
 
-## 3. Использование Math Wiz App
+## 3. Использование Math Wiz App 
 
-Контейнер Math Wiz App предназначен для простой сборки проекта Math Wiz App. Вы можете использовать его следующим образом:
+Контейнер Math Wiz App Builder предназначен для простой сборки проекта Math Wiz App. Вы можете использовать его следующим образом:
 
 ```bash
 docker-compose exec math_wiz_app bash
 ```
 
-Это выполнит сборку проекта Math Wiz внутри контейнера.
+Это позволит запускать контейнер для сборки и разработки MathWizApp.
 
 ## 4. Использование Math Wiz App Builder
 
@@ -33,7 +33,7 @@ docker-compose exec math_wiz_app bash
 Пример запуска с пользовательским путем к папке сборки:
 
 ```bash
-BUILD_DIR=/path/to/custom/build/dir docker-compose up -d
+BUILD_DIR=/path/to/custom/build/dir docker-compose up math_wiz_app_builder
 ```
 
 Это выполнит сборку проекта Math Wiz App в указанную пользователем папку.
