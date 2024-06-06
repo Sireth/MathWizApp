@@ -64,16 +64,19 @@ int main(int argc, char* argv[]) {
         if(json_data.is_null() || !json_data.is_object()) {
             mwa::ErrorHandler() << "Error: JSON string is not an object.";
         }
+        mw::VariableTable vt;
 
-        if(!json_data.contains("variables") || !json_data["variables"].is_array()) {
-            mwa::ErrorHandler() << "Error: JSON object does not contain 'variables' array.";
+        if(json_data.contains("variables")) {
+            if(!json_data["variables"].is_array()) {
+                mwa::ErrorHandler() << "Error: JSON object does not contain 'variables' array.";
+            }
+
+            const auto& variables = json_data["variables"];
+
+            const mwa::VariableTableBuilder builder(variables);
+
+            vt = *builder.variableTable();
         }
-
-        const auto& variables = json_data["variables"];
-
-        const mwa::VariableTableBuilder builder(variables);
-
-        const auto& vt = builder.variableTable();
 
         if(!json_data.contains("expression") || !json_data["expression"].is_string()) {
             mwa::ErrorHandler() << "Error: JSON object does not contain 'expression' string.";
@@ -82,7 +85,7 @@ int main(int argc, char* argv[]) {
         const auto& expression = json_data["expression"].get<std::string>();
 
         mw::Driver driver;
-        driver.setVariableTable(*vt);
+        driver.setVariableTable(vt);
 
         const auto ast = driver.Parse(expression);
         mw::EvalVisitor visitor;
